@@ -27,13 +27,15 @@ impl TodoItem {
     fn to_string(&self) -> String {
         let mut result = self.text.clone();
         if !self.tags.is_empty() {
-            result.push_str(" [TAGS:");
+            result.push_str(" [[ TAGS : ");
             result.push_str(&self.tags
                 .iter()
                 .map(|p| p.to_string_lossy().to_string())
                 .collect::<Vec<_>>()
-                .join("|"));
-            result.push_str("]");
+                .join(" | "));
+            result.push_str(" ]]");
+        } else {
+            result.push_str(" [[NO TAGS]]");
         }
         result
     }
