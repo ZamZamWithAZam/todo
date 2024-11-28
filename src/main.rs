@@ -41,8 +41,8 @@ impl TodoItem {
     }
 
     fn from_string(s: &str) -> Self {
-        if let Some(tag_start) = s.find(" [TAGS:") {
-            if let Some(tag_end) = s.rfind("]") {
+        if let Some(tag_start) = s.find(" [[TAGS:") {
+            if let Some(tag_end) = s.rfind("]]") {
                 let text = s[..tag_start].to_string();
                 let tags_str = &s[tag_start + 8..tag_end];
                 let tags = tags_str
@@ -52,6 +52,11 @@ impl TodoItem {
                 return TodoItem { text, tags };
             }
         }
+
+        if s.ends_with(" [[NO TAGS]]") {
+            return TodoItem::new(s[..s.len() - 12].to_string());
+        }
+
         TodoItem::new(s.to_string())
     }
 
@@ -82,7 +87,7 @@ impl TodoApp {
 
         let item = TodoItem::new(task.to_string());
         writeln!(file, "{}", item.to_string())?;
-        println!("Task added to list '{}': {}", list_name, task);
+        println!("Task added to list '{}': {}", list_name, item.to_string());
         Ok(())
     }
 
@@ -314,8 +319,9 @@ impl TodoApp {
             let mut has_tasks = false;
             for (index, line) in reader.lines().enumerate() {
                 if let Ok(task) = line {
+                    let item = TodoItem::from_string(&task);
                     has_tasks = true;
-                    println!("  {}. {}", index + 1, task);
+                    println!("  {}. {}", index + 1, item.to_string());
                 }
             }
             
