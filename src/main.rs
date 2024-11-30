@@ -55,7 +55,7 @@ impl TodoItem {
             }
         }
 
-        if s.ends_with(" [[NO TAGS]]") {
+        if s.ends_with(" [[ NO TAGS ]]") {
             return TodoItem::new(s[..s.len() - 12].to_string());
         }
 
