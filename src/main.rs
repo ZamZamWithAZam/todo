@@ -376,7 +376,7 @@ impl TodoApp {
         }
 
         // Clone items at the start so we can modify them later if needed
-        let mut items: Vec<TodoItem> = BufReader::new(File::open(&list_path)?)
+        let items: Vec<TodoItem> = BufReader::new(File::open(&list_path)?)
             .lines()
             .filter_map(Result::ok)
             .map(|line| TodoItem::from_string(&line))
