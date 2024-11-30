@@ -35,7 +35,7 @@ impl TodoItem {
                 .join(" | "));
             result.push_str(" ]]");
         } else {
-            result.push_str(" [[NO TAGS]]");
+            result.push_str(" [[ NO TAGS ]]");
         }
         result
     }
